@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Neobrutalism Color System */
+    --navy: 220 65% 18%;        /* #11224E - Dark Navy */
+    --orange: 21 94% 54%;       /* #F87B1B - Orange */
+    --green: 70 40% 72%;        /* #CBD99B - Soft Green */
+    --off-white: 0 0% 93%;      /* #EEEEEE - Off-White */
+    --black: 0 0% 0%;           /* Pure black for borders */
+    
+    --background: var(--off-white);
+    --foreground: var(--navy);
+
+    --card: var(--off-white);
+    --card-foreground: var(--navy);
+
+    --popover: var(--off-white);
+    --popover-foreground: var(--navy);
+
+    --primary: var(--navy);
+    --primary-foreground: var(--off-white);
+
+    --secondary: var(--orange);
+    --secondary-foreground: var(--off-white);
+
+    --muted: var(--green);
+    --muted-foreground: var(--navy);
+
+    --accent: var(--green);
+    --accent-foreground: var(--navy);
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--off-white);
+
+    --border: var(--black);
+    --input: var(--off-white);
+    --ring: var(--navy);
+
+    --radius: 0rem; /* No rounded corners for neobrutalism */
+    
+    /* Neobrutalism shadows */
+    --shadow-brutal: 6px 6px 0px hsl(var(--black));
+    --shadow-brutal-sm: 4px 4px 0px hsl(var(--black));
+    --shadow-brutal-lg: 8px 8px 0px hsl(var(--black));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  
+  /* Neobrutalism Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-black tracking-tight;
+  }
+  
+  /* Brutal animations */
+  @keyframes slide-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+}
