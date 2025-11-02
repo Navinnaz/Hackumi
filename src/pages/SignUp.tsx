@@ -69,20 +69,20 @@ const SignUp = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-12 md:py-20">
-        <Link to="/" className="inline-flex items-center gap-2 mb-8 text-navy font-bold hover:text-orange transition-colors">
-          <ArrowLeft className="h-5 w-5" />
+      <div className="container mx-auto px-4 py-8 md:py-12 lg:py-20">
+        <Link to="/" className="inline-flex items-center gap-2 mb-6 md:mb-8 text-navy font-bold hover:text-orange transition-colors">
+          <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
           Back to Home
         </Link>
 
         <div className="max-w-md mx-auto relative">
-          <div className="bg-off-white border-4 border-black shadow-brutal-lg p-8">
-            <div className="mb-8">
-              <div className="inline-block border-4 border-black bg-orange px-3 py-1 mb-4 shadow-brutal-sm">
-                <span className="text-sm font-black uppercase text-off-white">Join Us</span>
+          <div className="bg-off-white border-4 border-black shadow-brutal-lg p-6 md:p-8">
+            <div className="mb-6 md:mb-8">
+              <div className="inline-block border-4 border-black bg-orange px-2 py-1 md:px-3 md:py-1 mb-4 shadow-brutal-sm">
+                <span className="text-xs md:text-sm font-black uppercase text-off-white">Join Us</span>
               </div>
-              <h1 className="text-4xl font-black text-navy uppercase mb-2">Sign Up</h1>
-              <p className="text-navy/70 font-semibold">Create your account to get started</p>
+              <h1 className="text-3xl md:text-4xl font-black text-navy uppercase mb-2">Sign Up</h1>
+              <p className="text-navy/70 font-semibold text-sm md:text-base">Create your account to get started</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
