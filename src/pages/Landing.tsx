@@ -36,9 +36,9 @@ const Landing = () => {
                   Get Started Free
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              {/* <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 Watch Demo
-              </Button>
+              </Button> */}
             </div>
 
             {/* <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 lg:gap-8 pt-4">

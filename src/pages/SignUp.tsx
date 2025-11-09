@@ -68,30 +68,60 @@ const SignUp = () => {
   };
 
   const handleGoogleSignUp = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin, // redirects back to your app
-      },
-    });
-    if (error) {
-      toast.error("Google sign-up failed. Please try again.");
-      console.error(error.message);
-    }
-  };
+  // Safety: clear any existing Supabase session before new sign-up
+  await supabase.auth.signOut();
 
-  const handleGithubSignUp = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: window.location.origin,
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin,
+      queryParams: {
+        prompt: "select_account", // ✅ always show account chooser
       },
-    });
-    if (error) {
-      toast.error("GitHub sign-up failed. Please try again.");
-      console.error(error.message);
-    }
-  };
+    },
+  });
+
+  if (error) {
+    toast.error("Google sign-up failed. Please try again.");
+    console.error(error.message);
+  }
+};
+
+const handleGithubSignUp = async () => {
+  await supabase.auth.signOut();
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: window.location.origin,
+      queryParams: {
+        // GitHub doesn’t use 'prompt', but keeping consistent structure is fine
+      },
+    },
+  });
+
+  if (error) {
+    toast.error("GitHub sign-up failed. Please try again.");
+    console.error(error.message);
+  }
+};
+
+async function startGoogleFlow() {
+  const { data } = await supabase.auth.getSession();
+  if (data?.session) {
+    // user already has an active session in your app — sign out first
+    await supabase.auth.signOut();
+    // small delay to ensure state updates (optional)
+    await new Promise((r) => setTimeout(r, 250));
+  }
+
+  // now start provider flow with account chooser
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { queryParams: { prompt: "select_account" } },
+  });
+}
+
 
 
   return (
