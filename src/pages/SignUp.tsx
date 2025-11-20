@@ -139,14 +139,14 @@ const SignUp: React.FC = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-black uppercase text-navy">Full Name</Label>
+                <Label htmlFor="name" className="text-sm font-gray uppercase text-navy">Full Name</Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Otteri Nari"
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
-                  className={errors.name ? "border-red-500" : ""}
+                  className={`${errors.name ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.name && <p className="text-sm font-bold text-red-600 mt-1">{errors.name}</p>}
               </div>
@@ -155,10 +155,10 @@ const SignUp: React.FC = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="diwakar@watermelon.com"
                   value={formData.email}
                   onChange={(e) => handleChange("email", e.target.value)}
-                  className={errors.email ? "border-red-500" : ""}
+                  className={`${errors.email ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.email && <p className="text-sm font-bold text-red-600 mt-1">{errors.email}</p>}
               </div>
@@ -170,7 +170,7 @@ const SignUp: React.FC = () => {
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => handleChange("password", e.target.value)}
-                  className={errors.password ? "border-red-500" : ""}
+                  className={`${errors.password ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.password && <p className="text-sm font-bold text-red-600 mt-1">{errors.password}</p>}
                 <p className="text-xs font-semibold text-navy/60 mt-1">Min. 8 characters with uppercase, lowercase, and number</p>
@@ -183,7 +183,7 @@ const SignUp: React.FC = () => {
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={(e) => handleChange("confirmPassword", e.target.value)}
-                  className={errors.confirmPassword ? "border-red-500" : ""}
+                  className={`${errors.confirmPassword ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.confirmPassword && <p className="text-sm font-bold text-red-600 mt-1">{errors.confirmPassword}</p>}
               </div>

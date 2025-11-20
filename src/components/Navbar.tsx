@@ -27,7 +27,7 @@ const Navbar = () => {
     )}&background=random`;
 
   return (
-    <nav className="border-b-4 border-black bg-navy z-[999] shadow-md">
+    <nav id="main-navbar" className="border-b-4 border-black bg-navy z-[999] shadow-md">
       <div className="w-full">
         <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4 max-w-7xl mx-auto">
 

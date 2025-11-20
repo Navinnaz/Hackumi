@@ -90,7 +90,7 @@ const SignIn: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-8 md:py-12 lg:py-20">
+      <div className="container mx-auto px-4 py-10 md:py-12 lg:py-20">
         <Link
           to="/"
           className="inline-flex items-center gap-2 mb-6 md:mb-8 text-navy font-bold hover:text-orange transition-colors"
@@ -125,7 +125,7 @@ const SignIn: React.FC = () => {
                     setEmail(e.target.value);
                     setErrors((prev) => ({ ...prev, email: undefined }));
                   }}
-                  className={errors.email ? "border-red-500" : ""}
+                  className={`${errors.email ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.email && (
                   <p className="text-sm font-bold text-red-600 mt-1">{errors.email}</p>
@@ -147,7 +147,7 @@ const SignIn: React.FC = () => {
                     setPassword(e.target.value);
                     setErrors((prev) => ({ ...prev, password: undefined }));
                   }}
-                  className={errors.password ? "border-red-500" : ""}
+                  className={`${errors.password ? "border-red-500" : ""} placeholder:text-navy/50`}
                 />
                 {errors.password && (
                   <p className="text-sm font-bold text-red-600 mt-1">{errors.password}</p>
