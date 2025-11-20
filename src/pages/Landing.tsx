@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 import { fetchRecentHackathons, fetchHackathonsByUser, deleteHackathon, type Hackathon } from "@/lib/hackathons";
 import HackathonCard from "@/components/HackathonCard";
+import SecondaryNav from "@/components/SecondaryNav";
 
 const Landing = () => {
   const { user } = useAuth();
@@ -48,15 +49,16 @@ const Landing = () => {
     };
   }, [user]);
 
-   return (
+  return (
     <div className="min-h-screen bg-background">
       <div className="relative z-50">
-      <Navbar />
-    </div>
+        <Navbar />
+        {user && <SecondaryNav />}
+      </div>
 
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-10">
+      <section className={`container mx-auto px-4 ${user ? "pt-16 md:pt-20" : "pt-6 md:pt-10"} pb-20 md:pb-30`}>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-slide-up">
             <div className="inline-block border-4 border-black bg-orange px-4 py-2 shadow-brutal-sm">
@@ -119,7 +121,7 @@ const Landing = () => {
 
           {/* Hero Visual (Right Side) */}
           <div className="relative">
-            <div className="absolute -top-8 -right-8 w-64 h-64 bg-orange border-4 border-black shadow-brutal-lg hidden md:block" />
+            <div className="absolute -top-6 -right-8 w-64 h-64 bg-orange border-4 border-black shadow-brutal-lg hidden md:block" />
             <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-green border-4 border-black shadow-brutal hidden md:block" />
             <div className="relative bg-navy border-4 border-black shadow-brutal p-8 md:p-12">
               <div className="space-y-6">

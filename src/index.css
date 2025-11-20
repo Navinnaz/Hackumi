@@ -51,7 +51,33 @@ All colors MUST be HSL.
     --shadow-brutal-lg: 8px 8px 0px hsl(var(--black));
   }
 }
+/* Normal hover pill style */
+/* NAV PILL STYLES – theme-correct colors only */
+.nav-pill {
+  @apply flex items-center gap-2 px-4 py-2 rounded-xl font-semibold
+         transition-all duration-200
+         border border-transparent;
 
+  /* theme colors */
+  color: hsl(var(--navy));
+  background: transparent;
+}
+
+.nav-pill:hover {
+  background: hsl(var(--orange));
+  color: hsl(var(--off-white));
+  border-color: hsl(var(--black));
+}
+
+/* Active tab */
+.nav-pill-active {
+  background: hsl(var(--orange));
+  color: hsl(var(--off-white));
+  border: 1px solid hsl(var(--black));
+}
+
+
+/* Hover pill style for active tab */
 @layer base {
   * {
     @apply border-border;
