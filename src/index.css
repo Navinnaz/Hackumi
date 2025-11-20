@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
     /* Neobrutalism Color System */
@@ -17,48 +13,58 @@ All colors MUST be HSL.
     
     --background: var(--off-white);
     --foreground: var(--navy);
-
     --card: var(--off-white);
     --card-foreground: var(--navy);
-
     --popover: var(--off-white);
     --popover-foreground: var(--navy);
-
     --primary: var(--navy);
     --primary-foreground: var(--off-white);
-
     --secondary: var(--orange);
     --secondary-foreground: var(--off-white);
-
     --muted: var(--green);
     --muted-foreground: var(--navy);
-
     --accent: var(--green);
     --accent-foreground: var(--navy);
-
     --destructive: 0 84% 60%;
     --destructive-foreground: var(--off-white);
-
     --border: var(--black);
     --input: var(--off-white);
     --ring: var(--navy);
-
     --radius: 0rem; /* No rounded corners for neobrutalism */
-    
     /* Neobrutalism shadows */
     --shadow-brutal: 6px 6px 0px hsl(var(--black));
     --shadow-brutal-sm: 4px 4px 0px hsl(var(--black));
     --shadow-brutal-lg: 8px 8px 0px hsl(var(--black));
   }
 }
-/* Normal hover pill style */
-/* NAV PILL STYLES – theme-correct colors only */
+
+.provider-wrapper {
+  padding: 0 1rem; /* more horizontal space */
+  box-sizing: border-box;
+  overflow: visible; /* allow button shadows / edges without clipping */
+}
+
+.provider-buttons {
+  @apply flex flex-wrap justify-center gap-3;
+}
+
+.provider-wrapper button {
+  max-width: 100%;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.95); /* smaller shadow so buttons don't visually overflow */
+  transform: none !important;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  font-size: 0.875rem;
+}
+
+/* ensure flex children can shrink/truncate properly */
+.provider-buttons > div { min-width: 0; }
+.provider-buttons button { min-width: 0; }
+
 .nav-pill {
   @apply flex items-center gap-2 px-4 py-2 rounded-xl font-semibold
          transition-all duration-200
          border border-transparent;
-
-  /* theme colors */
   color: hsl(var(--navy));
   background: transparent;
 }
@@ -69,30 +75,22 @@ All colors MUST be HSL.
   border-color: hsl(var(--black));
 }
 
-/* Active tab */
 .nav-pill-active {
   background: hsl(var(--orange));
   color: hsl(var(--off-white));
   border: 1px solid hsl(var(--black));
 }
 
-
-/* Hover pill style for active tab */
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  
-  /* Neobrutalism Typography */
   h1, h2, h3, h4, h5, h6 {
     @apply font-black tracking-tight;
   }
-  
-  /* Brutal animations */
   @keyframes slide-up {
     from {
       transform: translateY(20px);
@@ -103,7 +101,6 @@ All colors MUST be HSL.
       opacity: 1;
     }
   }
-  
   .animate-slide-up {
     animation: slide-up 0.4s ease-out;
   }
