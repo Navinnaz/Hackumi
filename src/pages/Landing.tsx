@@ -201,7 +201,9 @@ const Landing = () => {
                       <div key={h.id} className="space-y-2">
                         <HackathonCard hackathon={h} />
                         <div className="flex gap-2">
-                          <Button variant="outline" onClick={() => navigate(`/hackathons/edit/${h.id}`)}>Edit</Button>
+                          <Link to={`/hackathons/${h.id}/edit`} className="inline-block">
+                            <Button variant="outline">Edit</Button>
+                          </Link>
                           <Button
                             variant="default"
                             className="bg-red-600 text-off-white border-4 border-black hover:bg-red-700"

@@ -49,25 +49,48 @@ export default function ManageTeams() {
     (async () => {
       setLoading(true);
       try {
-        // fetch teams where user is creator or member — adjust to your schema
-        const { data } = await supabase
-          .from("teams")
-          .select("*, members:team_members(user_id, users!inner(id, full_name, avatar_url))")
-          .or(`created_by.eq.${user.id},members.user_id.eq.${user.id}`);
+        // Safer two-step fetch to avoid complex nested selects that can fail under RLS
+        // 1) fetch teams the user created
+        const { data: createdTeams } = await supabase.from("teams").select("*").eq("created_by", user.id);
+
+        // 2) fetch team memberships for the user, then fetch those teams
+        const { data: memberships } = await supabase.from("team_members").select("team_id").eq("user_id", user.id);
+        const memberTeamIds = (memberships ?? []).map((m: any) => m.team_id);
+
+        let memberTeams: any[] = [];
+        if (memberTeamIds.length) {
+          const { data: mt } = await supabase.from("teams").select("*").in("id", memberTeamIds);
+          memberTeams = mt ?? [];
+        }
+
         if (cancelled) return;
-        const list = (data ?? []) as any[];
+
+        // merge createdTeams and memberTeams (dedupe by id)
+        const combined = [...(createdTeams ?? []), ...memberTeams];
+        const uniqueById = Object.values(
+          combined.reduce((acc: Record<string, any>, t: any) => {
+            acc[t.id] = acc[t.id] || t;
+            return acc;
+          }, {})
+        );
+
+        // For each team, fetch a simple members list (ids) to show avatars later if needed
+        const teamIds = uniqueById.map((t: any) => t.id);
+        let membersMap: Record<string, any[]> = {};
+        if (teamIds.length) {
+          const { data: allMembers } = await supabase.from("team_members").select("team_id, user_id").in("team_id", teamIds);
+          (allMembers ?? []).forEach((m: any) => {
+            membersMap[m.team_id] = membersMap[m.team_id] || [];
+            membersMap[m.team_id].push({ id: m.user_id });
+          });
+        }
+
         setTeams(
-          list.map((t) => ({
+          uniqueById.map((t: any) => ({
             id: t.id,
             name: t.name,
             description: t.description,
-            members:
-              (t.members?.map((m: any) => ({
-                id: m.users.id,
-                full_name: m.users.full_name,
-                avatar_url: m.users.avatar_url,
-                role: "Member",
-              })) as Team["members"]) ?? [],
+            members: (membersMap[t.id] || []) as Team["members"],
             created_by: t.created_by,
           }))
         );
