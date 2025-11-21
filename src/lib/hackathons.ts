@@ -129,6 +129,32 @@ export const registerTeamForHackathon = async (
   hackathonId: string,
   teamId: string
 ): Promise<Registration | null> => {
+  // validate hackathon exists and is team-based
+  const { data: hackathon, error: hErr } = await supabase
+    .from("hackathons")
+    .select("id, participation_type, max_team_size")
+    .eq("id", hackathonId)
+    .single();
+
+  if (hErr) throw hErr;
+  if (!hackathon) throw new Error("Hackathon not found");
+  if (hackathon.participation_type !== "Team") throw new Error("This hackathon is not team-based");
+
+  // count team members
+  const { data: membersData, error: mErr, count } = await supabase
+    .from("team_members")
+    .select("user_id", { count: "exact" })
+    .eq("team_id", teamId);
+
+  if (mErr) throw mErr;
+  const memberCount = (count ?? (membersData ?? []).length) as number;
+
+  // enforce minimum team size of 2 and maximum from hackathon
+  if (memberCount < 2) throw new Error("Team must have at least 2 members to register");
+  if (hackathon.max_team_size && memberCount > hackathon.max_team_size) {
+    throw new Error(`Team size (${memberCount}) exceeds hackathon max (${hackathon.max_team_size})`);
+  }
+
   const { data, error } = await supabase
     .from("hackathon_registrations")
     .insert([{ hackathon_id: hackathonId, user_id: null, team_id: teamId }])

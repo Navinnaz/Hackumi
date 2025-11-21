@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { fetchRecentHackathons, fetchHackathonsByUser, deleteHackathon, type Hackathon } from "@/lib/hackathons";
 import HackathonCard from "@/components/HackathonCard";
 import SecondaryNav from "@/components/SecondaryNav";
-
 const Landing = () => {
   const { user } = useAuth();
   const [recent, setRecent] = useState<Hackathon[]>([]);
@@ -50,7 +49,7 @@ const Landing = () => {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
       <div className="relative z-50">
         <Navbar />
         {user && <SecondaryNav />}

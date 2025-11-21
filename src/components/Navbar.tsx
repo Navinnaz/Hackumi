@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/supabaseClient";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Code2, LogOut, Settings, User } from "lucide-react";
+import { Code2, LogOut, Settings, User } from "lucide-react";  // ⭐ Added User icon here
 
 const Navbar = () => {
   const location = useLocation();
@@ -42,11 +42,9 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div
-              className="p-1.5 md:p-2 bg-orange border-4 border-black shadow-brutal-sm
-                          group-hover:translate-x-[2px] group-hover:translate-y-[2px]
-                          group-hover:shadow-none transition-all"
-            >
+            <div className="p-1.5 md:p-2 bg-orange border-4 border-black shadow-brutal-sm
+                            group-hover:translate-x-[2px] group-hover:translate-y-[2px]
+                            group-hover:shadow-none transition-all">
               <Code2 className="h-5 w-5 md:h-6 md:w-6 text-off-white" />
             </div>
             <span className="text-xl md:text-2xl font-black text-off-white tracking-tight">
@@ -128,3 +126,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
