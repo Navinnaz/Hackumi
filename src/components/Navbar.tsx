@@ -43,12 +43,12 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div
-              className="w-8 h-8 md:w-10 md:h-10 shadow-brutal-sm
+              className="w-8 h-8 md:w-10 md:h-10 bg-off-white shadow-brutal-sm
                           group-hover:translate-x-[2px] group-hover:translate-y-[2px]
                           group-hover:shadow-none transition-all overflow-hidden"
             >
               <img
-                src="an_orange_colored_and_minimali.jpeg"
+                src="public\WhatsApp_Image_2025-11-22_at_01.17.04_0065d5bd-removebg-preview.png"
                 alt="Hackumi logo"
                 className="w-full h-full object-cover"
               />
