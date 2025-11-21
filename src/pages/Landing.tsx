@@ -200,7 +200,10 @@ const Landing = () => {
                     {myHackathons.map((h) => (
                       <div key={h.id} className="space-y-2">
                         <HackathonCard hackathon={h} />
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
+                          <Link to={`/hackathons/${h.id}/insights`} className="inline-block">
+                            <Button variant="outline">Insights</Button>
+                          </Link>
                           <Link to={`/hackathons/${h.id}/edit`} className="inline-block">
                             <Button variant="outline">Edit</Button>
                           </Link>

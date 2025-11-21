@@ -12,6 +12,7 @@ import HackathonsList from "./pages/HackathonsList";
 import CreateHackathon from "./pages/CreateHackathon";
 import EditHackathon from "./pages/EditHackathon";  
 import ManageTeams from "./pages/ManageTeams";
+import HackathonInsights from "./pages/HackathonInsights";
 
 import { AuthProvider } from "./contexts/authContext";
 import ProfilePage from "./pages/ProfilePage";
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/hackathons" element={<HackathonsList />} />
             <Route path="/hackathons/create" element={<CreateHackathon />} />
             <Route path="/hackathons/:id/edit" element={<EditHackathon />} />
+            <Route path="/hackathons/:id/insights" element={<HackathonInsights />} />
             <Route path="/teams" element={<ManageTeams />} />
 
             <Route path="*" element={<NotFound />} />

@@ -253,3 +253,147 @@ export const unregisterTeamFromHackathon = async (
   if (error) throw error;
   return true;
 };
+
+// ============================================================================
+// INSIGHTS HELPERS
+// ============================================================================
+
+/**
+ * Fetch all registrations for a hackathon with user/team details
+ */
+export const getHackathonInsights = async (
+  hackathonId: string
+): Promise<{
+  totalIndividualParticipants: number;
+  totalTeams: number;
+  totalTeamParticipants: number;
+  teams: Array<{
+    id: string;
+    name: string;
+    memberCount: number;
+    members: Array<{ id: string; name: string }>;
+  }>;
+  individuals: Array<{ id: string; name: string }>;
+}> => {
+  // Fetch registrations
+  const { data: registrations, error: regErr } = await supabase
+    .from("hackathon_registrations")
+    .select("*")
+    .eq("hackathon_id", hackathonId);
+
+  if (regErr) throw regErr;
+
+  const regs = registrations as Registration[] | null;
+  if (!regs || regs.length === 0) {
+    return {
+      totalIndividualParticipants: 0,
+      totalTeams: 0,
+      totalTeamParticipants: 0,
+      teams: [],
+      individuals: [],
+    };
+  }
+
+  // Separate individual and team registrations
+  const individualUserIds = regs
+    .filter((r) => r.user_id && !r.team_id)
+    .map((r) => r.user_id!) as string[];
+  const teamIds = regs.filter((r) => r.team_id).map((r) => r.team_id!) as string[];
+
+  // Fetch individual participants profiles
+  const individuals: Array<{ id: string; name: string }> = [];
+  if (individualUserIds.length > 0) {
+    const { data: usersData, error: usersErr } = await supabase.auth.admin.listUsers();
+    if (!usersErr && usersData) {
+      individualUserIds.forEach((uid) => {
+        const user = usersData.users.find((u) => u.id === uid);
+        const name =
+          user?.user_metadata?.full_name ||
+          user?.email ||
+          uid;
+        individuals.push({ id: uid, name });
+      });
+    }
+  }
+
+  // Fetch team details and members
+  const teams: Array<{
+    id: string;
+    name: string;
+    memberCount: number;
+    members: Array<{ id: string; name: string }>;
+  }> = [];
+
+  let totalTeamParticipants = 0;
+
+  if (teamIds.length > 0) {
+    const { data: teamsData, error: teamsErr } = await supabase
+      .from("teams")
+      .select("id, name")
+      .in("id", teamIds);
+
+    if (teamsErr) throw teamsErr;
+
+    const fetchedTeams = teamsData as Array<{ id: string; name: string }> | null;
+    if (fetchedTeams) {
+      for (const team of fetchedTeams) {
+        // Fetch members for this team
+        const { data: membersData, error: membersErr } = await supabase
+          .from("team_members")
+          .select("user_id")
+          .eq("team_id", team.id);
+
+        if (membersErr) throw membersErr;
+
+        const memberUserIds = membersData
+          ? (membersData as Array<{ user_id: string }>).map((m) => m.user_id)
+          : [];
+
+        totalTeamParticipants += memberUserIds.length;
+
+        // Fetch member profiles
+        const members: Array<{ id: string; name: string }> = [];
+        if (memberUserIds.length > 0) {
+          const { data: profilesData, error: profilesErr } = await supabase
+            .from("profiles")
+            .select("id, full_name")
+            .in("id", memberUserIds);
+
+          if (!profilesErr && profilesData) {
+            const profileMap = new Map(
+              (profilesData as Array<{ id: string; full_name: string | null }>).map((p) => [
+                p.id,
+                p.full_name,
+              ])
+            );
+
+            // Also fetch auth user info as fallback
+            for (const userId of memberUserIds) {
+              const profileName = profileMap.get(userId);
+              // For now, use the ID; in a real app, you'd fetch user metadata
+              members.push({
+                id: userId,
+                name: profileName || userId,
+              });
+            }
+          }
+        }
+
+        teams.push({
+          id: team.id,
+          name: team.name,
+          memberCount: memberUserIds.length,
+          members,
+        });
+      }
+    }
+  }
+
+  return {
+    totalIndividualParticipants: individuals.length,
+    totalTeams: teams.length,
+    totalTeamParticipants,
+    teams,
+    individuals,
+  };
+};
