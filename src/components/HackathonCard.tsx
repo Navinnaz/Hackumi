@@ -168,7 +168,7 @@ export default function HackathonCard({ hackathon, onRegistrationChange }: Props
         <div className="mt-2 inline-block">
           <span className={`inline-block px-2 py-1 text-xs font-bold rounded border-2 ${
             hackathon.participation_type === "Team"
-              ? "bg-green border-black text-off-white"
+              ? "bg-navy border-black text-off-white"
               : "bg-orange border-black text-off-white"
           }`}>
             {hackathon.participation_type === "Team"
