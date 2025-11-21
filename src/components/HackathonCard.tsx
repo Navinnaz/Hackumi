@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { isUserRegistered, isTeamRegistered, registerUserForHackathon, registerTeamForHackathon, unregisterUserFromHackathon, unregisterTeamFromHackathon } from "@/lib/hackathons";
 import { fetchCreatedTeams } from "@/lib/teams";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
+
 
 interface Props {
   hackathon: Hackathon;

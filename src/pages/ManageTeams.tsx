@@ -176,7 +176,6 @@ export default function ManageTeams() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <SecondaryNav />
-
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Create team card (left column on large screens) */}
